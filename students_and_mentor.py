@@ -6,6 +6,7 @@ class Student:
         self.finished_courses = []
         self.courses_in_progress = []
         self.grades = {}
+        self.courses_attached = []
         
     def rate_lec(self, lecturer, course, grade):
         if isinstance(lecturer, Lecturer) and course in self.courses_attached and course in lecturer.courses_in_progress:
@@ -23,8 +24,17 @@ class Mentor:
         self.courses_attached                                                                                                                                                                                                                           = []
 
 class Lecturer(Mentor):
-    def __init__(self):
+    def __init__(self, name, surname):
         self.grades = {}
+        self.name = name
+        self.surname = surname
+    
+    def average_grades(self, avg_lec):
+        avg_lec = sum(some_lecturer.grades)/len(some_lecturer.grades)
+
+
+    def __str__(self):
+        return 'Имя: {} \nФамилия: {} \nСредняя оценка за лекции:' .format(self.name, self.surname, avg_lec)
     
 class Reviewer(Mentor):   
     def rate_hw(self, student, course, grade):
@@ -35,7 +45,12 @@ class Reviewer(Mentor):
                 student.grades[course] = [grade]
         else:
             return 'Ошибка'
- 
+
+    def __str__(self):
+        return 'Имя: {} \nФамилия: {} ' .format(self.name, self.surname)
+
+
+
 best_student = Student('Ruoy', 'Eman', 'your_gender')
 best_student.courses_in_progress += ['Python']
  
@@ -45,5 +60,15 @@ cool_mentor.courses_attached += ['Python']
 cool_mentor.rate_hw(best_student, 'Python', 10)
 cool_mentor.rate_hw(best_student, 'Python', 10)
 cool_mentor.rate_hw(best_student, 'Python', 10)
+
+some_reviewer = Reviewer('Some', 'Buddy')
+some_lecturer = Lecturer('Some', 'Buddy')
+
+best_student.rate_lec(some_lecturer, 'Python', 8)
+best_student.rate_lec(some_lecturer, 'Python', 8)
+best_student.rate_lec(some_lecturer, 'Python', 8)
  
 print(best_student.grades)
+print(some_reviewer)
+print(some_lecturer)
+print(some_lecturer.grades)
